@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FcSearch } from 'react-icons/fc';
 
@@ -12,35 +12,35 @@ import {
   SearchLabel,
 } from './SearchBar.styled';
 
-export class SearchBar extends Component {
-  state = {
-    searchQuery: '',
+export default function SearchBar({ onSubmit }) {
+  const[searchQuery, setSearchQuery] = useState("")
+  // state = {
+  //   searchQuery: '',
+  // };
+
+ const onChange = event => {
+   setSearchQuery(event.target.value.toLowerCase());
   };
 
-  onChange = event => {
-    this.setState({ searchQuery: event.target.value });
-  };
-
-  onSubmit(event) {
+ const handleSubmit = event => {
     event.preventDefault();
- setTimeout(() => {
-     if (this.state.searchQuery.trim() === '') {
+ 
+     if (searchQuery.trim() === '') {
       toast.info('Please enter details for search');
       return;
-    }
-  }, 500);
+   };
+  
    
-
-    this.props.onSubmit(this.state.searchQuery.trim());
+   onSubmit(searchQuery);
+   setSearchQuery('');
   }
 
-  render() {
+
     return (
       <SearchBarHeader>
         <SearchForm
-          onSubmit={event => {
-            this.onSubmit(event);
-          }}
+          onSubmit={handleSubmit}
+          
         >
           <SearchButton type="submit" className="button">
             <FcSearch size="24px" />
@@ -55,13 +55,14 @@ export class SearchBar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            onChange={this.onChange}
+            onChange={onChange}
+            value={searchQuery}
           />
         </SearchForm>
       </SearchBarHeader>
     );
   }
-}
+
 
 SearchBar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
