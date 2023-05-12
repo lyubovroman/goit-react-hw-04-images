@@ -9,7 +9,10 @@ export default function Modal({ closeModal, largeImage }) {
     const handleKeyDown = (event) => {
       if (event.code === 'Escape') {
         closeModal();
-      }
+      };
+       if (event.target.value === event.currentTarget.value) {
+    closeModal()
+  }
     };
 
     document.addEventListener('keydown', handleKeyDown);
@@ -24,6 +27,7 @@ export default function Modal({ closeModal, largeImage }) {
   if (!modalRoot) {
     return null;
   }
+ 
 
   return createPortal(
     <ModalOverlay onClick={closeModal}>

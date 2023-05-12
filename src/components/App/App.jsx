@@ -40,7 +40,8 @@ export default function App(){
           data: { hits, totalHits },
         } = await axios.get(
     `${BASE_URL}?q=${searchQuery}&page=${page}&key=${MY_KEY}&${OPTIONS_FOR_RESPONSE}&per_page=12`
-  );
+          );
+        
         const filteredData = hits.map(
           ({ id, webformatURL, largeImageURL, tags }) => ({
             id,
@@ -56,8 +57,8 @@ export default function App(){
           return;
         }
 
-        const isLastPage = Math.ceil(totalHits / 12) !== page;
-        setShowButton(isLastPage);
+        const quantityOfPages = Math.ceil(totalHits / 12) !== page;
+        setShowButton(quantityOfPages);
 
         setHits(prevHits => [...prevHits, ...filteredData]);
         setIsLoading(false);
@@ -69,12 +70,17 @@ export default function App(){
   }, [page, searchQuery]);
 
   const onLoadMore = () => {
+    setIsLoading(true);
     const nextPage = page + 1;
     setPage(nextPage);
   };
 
   const onHandleSubmit = searchQuery => {
-   setSearchQuery(searchQuery.toLowerCase().trim() )
+    setSearchQuery(searchQuery.toLowerCase().trim(),
+      setIsLoading(true),
+          setPage(1)
+    
+     )
   }
 
   const onShowModal = image => {
