@@ -76,11 +76,18 @@ export default function App(){
   };
 
   const onHandleSubmit = searchQuery => {
-    setSearchQuery(searchQuery.toLowerCase().trim(),
-      setIsLoading(true),
-          setPage(1)
+    setSearchQuery(searchQuery.toLowerCase().trim());
+    setPage(1);
+    setHits([]);
+    setShowButton(false);
+    setIsLoading(true);
+    // setSearchQuery(searchQuery.toLowerCase().trim()),
+    //   setIsLoading(true),
+    //   setPage(1),
+    //   setShowButton(false),
+    //   setHits([])
     
-     )
+     
   }
 
   const onShowModal = image => {
